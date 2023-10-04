@@ -1,6 +1,7 @@
 import requests
 import pytest
 import json
+import time
 
 head = {
         'accept': 'text/plain',
@@ -320,5 +321,101 @@ def test_server_errors():
     response = requests.post(url=invalid_url, headers=head, json=payload)
     assert 404 == response.status_code  # Expecting a 404 Internal Server Error response
     print(response.status_code)
+
+def test_performance_matrix():
+    for _ in range(100):  # Simulate 100 concurrent requests
+        time.sleep(.20)
+        payload = {
+            "delivery_vendor_name": "",
+            "delivery_tracking_number": "",
+            "comment": "",
+            "invoice_note": "",
+            "customer_id": 33,
+            "branch_id": 1,
+            "ship_to_customer_address": 1,
+            "sales_source": "6",
+            "sub_total": "75.00",
+            "invoice_amount": "75.00",
+            "invoice_vat": "0.00",
+            "total_before_vat": "75.00",
+            "total_discount": "0.00",
+            "overall_discount": "0.000",
+            "overall_discount_percent": 0,
+            "delivery_date": "2023-10-04",
+            "delivery_slot_start": "16:00",
+            "delivery_slot_end": "16:59",
+            "due_date": "2023-10-04T04:22:04.512Z",
+            "invoice_date": "2023-10-04T04:22:04.512Z",
+            "total_amount": [
+                "75.000"
+            ],
+            "product_id": [
+                25
+            ],
+            "accounts_group_id": [
+                25
+            ],
+            "total_price": [
+                75
+            ],
+            "vat_rate": [
+                0
+            ],
+            "total_vat": [
+                0
+            ],
+            "quantity": [
+                1
+            ],
+            "inventory_type": [
+                1
+            ],
+            "quantity_left": [
+                "234.00"
+            ],
+            "item_total_discount": [
+                "0.000"
+            ],
+            "discount_id": [
+                0
+            ],
+            "per_unit_discount": [
+                0
+            ],
+            "unit_price": [
+                75
+            ],
+            "discount_type": [
+                "amount"
+            ],
+            "productwise_overall_discount": [
+                "0.000"
+            ],
+            "note": [
+                ""
+            ],
+            "average_unit_cost": [
+                52.336
+            ],
+            "product_identity": [
+                (
+                    {
+                        "label": "SL",
+                        "value": ""
+                    },
+                    {
+                        "label": "IMEI",
+                        "value": ""
+                    },
+                    {
+                        "label": "WARRANTY",
+                        "value": "",
+                        "day_type": "DAYS"
+                    }
+                )
+            ]
+        }
+        response = requests.post(url=str(base_url + 'accounts/invoice/create'), headers=head, json=payload)
+        assert 200 == response.status_code  # Expecting a 200 successful response code
 
 
