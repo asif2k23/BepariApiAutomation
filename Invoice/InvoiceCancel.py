@@ -20,7 +20,7 @@ def test_invoice_cancallation():
     response = requests.post(
         url = f'{base_url}accounts/invoice/cancelled/{invoice_id_to_cancel}',
         headers = head,
-        json = payloa
+        json = payload
     )
     print(response.status_code)
     print(response.json())
@@ -39,3 +39,37 @@ def test_invalid_invoice_cancallation():
     )
     print(response.status_code)
     print(response.json())
+
+
+# def test_canceled_return_cancel_validation():
+#
+#     sales_return_id_to_cancel = 68
+#
+#     response = requests.post(
+#         url=f'{base_url}accounts/return/cancel/{sales_return_id_to_cancel}',
+#         headers=head
+#     )
+#     print(response.status_code)
+#     print(response.json())
+#
+# def test_invalid_return_id_cancel():
+#
+#     sales_return_id_to_cancel = 490
+#
+#     response = requests.post(
+#         url=f'{base_url}accounts/return/cancel/{sales_return_id_to_cancel}',
+#         headers=head
+#     )
+#     print(response.status_code)
+#     print(response.json())
+#
+# def test_sales_return_cancel_method_validation():
+#
+#     sales_return_id_to_cancel = 500
+#
+#     response = requests.get(
+#         url=f'{base_url}accounts/return/cancel/{sales_return_id_to_cancel}',
+#         headers=head
+#     )
+#     print(response.status_code)
+#     print(response.json())
