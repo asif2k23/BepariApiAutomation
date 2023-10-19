@@ -11,7 +11,7 @@ head = {
 base_url = 'https://api.dev.bepari.info/demo/api/V1.1/'
 
 
-def test_discount_list_invoice():
+def test_discount_view():
 
     discount_id_to_view = 29
 

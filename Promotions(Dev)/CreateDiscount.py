@@ -309,10 +309,10 @@ def test_discount_create_order_amount_different_range():
          "max":3000,
          "amount":15,
          "discount_type":"percent",
-         "key":1
+         "key":0
       },
       {
-         "key":1697615565045,
+         "key":0,
          "min":3001,
          "max":5000,
          "amount":20,
