@@ -1,6 +1,7 @@
 import requests
 import pytest
 import json
+import uuid
 
 head = {
         'accept': 'text/plain',
@@ -10,6 +11,8 @@ head = {
 
 base_url = 'https://api.dev.bepari.info/demo/api/V1.1/'
 
+def generate_uuid_key():
+    return str(uuid.uuid4())
 
 # for offers on Order amount(2)
 def test_discount_create_order_amount():
@@ -39,7 +42,7 @@ def test_discount_create_order_amount():
                 "max": 1000,
                 "amount": 5,
                 "discount_type": "amount",
-                "key": 1
+                "key": generate_uuid_key()
             }
         ],
         "expiry_type": 0,
@@ -94,7 +97,7 @@ def test_discount_create_target_product():
          "max":0,
          "amount":10,
          "discount_type":"percent",
-         "key":1
+         "key":generate_uuid_key()
       }
    ],
    "expiry_type":0,
@@ -120,6 +123,80 @@ def test_discount_create_target_product():
     print(response.status_code)
     print(formatted_json)
     assert 200 == response.status_code      #The response code  422 should show
+
+
+def test_discount_create_target_product_order_amount_both():
+
+    payload = {
+           "id":'',
+           "title":"Discount for both Target Product and Order Amount 2",
+           "description":"<p>Discount for both Target Product and Order Amount Description. Discount for both Target Product and Order Amount Description.</p>",
+           "platforms":[
+              0,
+              4,
+              5
+           ],
+           "offers_on":[
+              2,
+              1
+           ],
+           "has_order_amount_range":1,
+           "has_selected_products":1,
+           "productData":[
+              66
+           ],
+           "parentProductData":[
+              13
+           ],
+           "order_amount_range":[
+              {
+                 "min":50,
+                 "max":200,
+                 "amount":5,
+                 "discount_type":"amount",
+                 "key":generate_uuid_key()
+              },
+              {
+                 "key":generate_uuid_key(),
+                 "min":201,
+                 "max":500,
+                 "amount":5,
+                 "type":"",
+                 "discount_type":"percent"
+              },
+              {
+                 "key":generate_uuid_key(),
+                 "min":501,
+                 "max":1000,
+                 "amount":10,
+                 "type":"",
+                 "discount_type":"percent"
+              }
+           ],
+           "expiry_type":2,
+           "promotion_date":[
+              "2023-10-18T18:00:00.000Z",
+              "2023-11-29T18:00:00.000Z"
+           ],
+           "discount_in":0,
+           "discount_info":'',
+           "status":1,
+           "promotion_start_date":"19-10-2023 12:00:00 am",
+           "promotion_end_date":"30-11-2023 12:00:00 am"
+        }
+
+    response = requests.post(
+        url = f'{base_url}promotion/discount-offer/create',
+        headers = head,
+        json = payload
+    )
+
+    API_Data = response.json()
+    formatted_json = json.dumps(API_Data, indent=4)
+
+    print(response.status_code)
+    print(formatted_json)
+    assert 200 == response.status_code
 
 
 # offers on Order amount with same information validation check
@@ -149,7 +226,7 @@ def test_same_discount_create_order_amount_validation():
                 "max": 1000,
                 "amount": 5,
                 "discount_type": "amount",
-                "key": 1
+                "key": generate_uuid_key()
             }
         ],
         "expiry_type": 0,
@@ -203,7 +280,7 @@ def test_same_discount_create_target_product_validation():
                 "max": 0,
                 "amount": 10,
                 "discount_type": "percent",
-                "key": 1
+                "key": generate_uuid_key()
             }
         ],
         "expiry_type": 0,
@@ -256,7 +333,7 @@ def test_discount_create_multiple_target_products():
                 "max": 0,
                 "amount": 10,
                 "discount_type": "percent",
-                "key": 1
+                "key": generate_uuid_key()
             }
         ],
         "expiry_type": 0,
@@ -309,10 +386,10 @@ def test_discount_create_order_amount_different_range():
          "max":3000,
          "amount":15,
          "discount_type":"percent",
-         "key":0
+         "key":generate_uuid_key()
       },
       {
-         "key":0,
+         "key":generate_uuid_key(),
          "min":3001,
          "max":5000,
          "amount":20,
@@ -369,7 +446,7 @@ def test_discount_create_expired_dates():
                 "max": 0,
                 "amount": 10,
                 "discount_type": "percent",
-                "key": 1
+                "key": generate_uuid_key()
             }
         ],
         "expiry_type": 0,
@@ -421,7 +498,7 @@ def test_discount_create_invalid_data_validation():
                 "max": -500,
                 "amount": -10,
                 "discount_type": 'percent',
-                "key": 1
+                "key": generate_uuid_key()
             }
         ],
         "expiry_type": 3,
@@ -473,7 +550,7 @@ def test_discount_create_required_fields():
         #         "max": 0,
         #         "amount": 10,
         #         "discount_type": "percent",
-        #         "key": 1
+        #         "key": generate_uuid_key()
         #     }
         # ],
         # "expiry_type": 0,
