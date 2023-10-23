@@ -12,7 +12,9 @@ head = {
 base_url = 'https://api.dev.bepari.info/demo/api/V1.1/'
 
 def generate_uuid_key():
-    return str(uuid.uuid4())
+    unique_id = uuid.uuid4()
+    integer_key = int(unique_id.int%10000)
+    return integer_key
 
 # for offers on Order amount(2)
 def test_discount_create_order_amount():
@@ -20,8 +22,8 @@ def test_discount_create_order_amount():
     payload = {
 
         "id": '',
-        "title": "Discount Offer for order amount 1",
-        "description": "<p>Discount Offer for order amount Description 1</p>",
+        "title": "Discount Offer - Order Amount 4",
+        "description": "Discount Offer - Order Amount 4",
         "platforms": [
             4
         ],
@@ -45,15 +47,16 @@ def test_discount_create_order_amount():
                 "key": generate_uuid_key()
             }
         ],
-        "expiry_type": 0,
-        "promotion_date": [
-
-        ],
+        # "expiry_type": 2,
+        # "promotion_date": [
+        #     "2023-10-20T18:00:00.000Z",
+        #     "2023-11-29T18:00:00.000Z"
+        # ],
         "discount_in": 0,
         "discount_info": '',
         "status": 1,
-        "promotion_start_date": "NaN-NaN-NaN 12:NaN:NaN am",
-        "promotion_end_date": "NaN-NaN-NaN 12:NaN:NaN am"
+        "promotion_start_date": "22-10-2023 12:00:00 am",
+        "promotion_end_date": "31-11-2023 12:00:00 am"
 }
 
     response = requests.post(
@@ -76,7 +79,7 @@ def test_discount_create_target_product():
     payload = {
    "id":'',
    "title":"Discount Offer for target product 1",
-   "description":"<p>Discount Offer for target product Description 1</p>",
+   "description":"Discount Offer for target product Description 1",
    "platforms":[
       4
    ],
@@ -129,8 +132,8 @@ def test_discount_create_target_product_order_amount_both():
 
     payload = {
            "id":'',
-           "title":"Discount for both Target Product and Order Amount 2",
-           "description":"<p>Discount for both Target Product and Order Amount Description. Discount for both Target Product and Order Amount Description.</p>",
+           "title":"Discount for both Target Product and Order Amount 4",
+           "description":"Discount for both Target Product and Order Amount Description. Discount for both Target Product and Order Amount Description.",
            "platforms":[
               0,
               4,
@@ -205,7 +208,7 @@ def test_same_discount_create_order_amount_validation():
 
         "id": '',
         "title": "Discount Offer for order amount 1",
-        "description": "<p>Discount Offer for order amount Description 1</p>",
+        "description": "Discount Offer for order amount Description 1",
         "platforms": [
             4
         ],
@@ -259,7 +262,7 @@ def test_same_discount_create_target_product_validation():
     payload = {
         "id": '',
         "title": "Discount Offer for target product 1",
-        "description": "<p>Discount Offer for target product Description 1</p>",
+        "description": "Discount Offer for target product Description 1",
         "platforms": [
             4
         ],
@@ -312,7 +315,7 @@ def test_discount_create_multiple_target_products():
     payload = {
         "id": '',
         "title": "Discount Offer for target product 2",
-        "description": "<p>Discount Offer for target product Description 1</p>",
+        "description": "Discount Offer for target product Description 1",
         "platforms": [
             4
         ],
@@ -363,7 +366,7 @@ def test_discount_create_order_amount_different_range():
     payload = {
    "id":'',
    "title":"Discount Offer for order amount 5",
-   "description":"<p>Discount Offer for order amount 5</p>",
+   "description":"Discount Offer for order amount 5",
    "platforms":[
       4,
       0,
@@ -425,7 +428,7 @@ def test_discount_create_expired_dates():
     payload = {
         "id": '',
         "title": "Discount Offer for target product 7",
-        "description": "<p>Discount Offer for target product Description 7</p>",
+        "description": "Discount Offer for target product Description 7",
         "platforms": [
             4
         ],
@@ -477,7 +480,7 @@ def test_discount_create_invalid_data_validation():
     payload = {
         "id": '',
         "title": "Invalid Discount Offer for Test",
-        "description": "<p>Invalid Description for Testing</p>",
+        "description": "Invalid Description for Testing",
         "platforms": [
             4
         ],
@@ -529,7 +532,7 @@ def test_discount_create_required_fields():
     payload = {
         # "id": '',
         # "title": "Discount Offer for target product 1",
-        # "description": "<p>Discount Offer for target product Description 1</p>",
+        # "description": "Discount Offer for target product Description 1",
         # "platforms": [
         #     4
         # ],
